@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h1= title
+  -
+    let results = [
+      { park_name: "Yellowstone National Park", state: "Wyoming", area_acres: 2219791 },
+      { park_name: "Yosemite National Park", state: "California", area_acres: 761748 },
+      { park_name: "Grand Canyon National Park", state: "Arizona", area_acres: 1217262 }
+    ];
+  
+  
+  div.container-fluid
+    div.row
+      each park, index in results
+        div.col-sm-2(onclick=`buy(${index})`)
+          h5 #{park.park_name}
+          p State: #{park.state}
+          p Area: #{park.area_acres} acres
+        
+  
+  script.
+    function buy(index) {
+      alert(`You purchased item ${index}`);
+    }
+
+

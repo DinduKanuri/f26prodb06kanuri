@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to my Lab 10 Pug application!
+  button(type="button", class="btn btn-secondary", onclick="reduce()") Sample Button
+  div(id="use") take some away
+  a(href="/parks") View Parks Search Results
+
+  
+  script.
+    let current = 11;
+    let quantity = 2;
+
+    function reduce() {
+      current = current - quantity;
+
+      if (current < 0) {
+        current = 0;
+      }
+
+      document.getElementById("use").textContent =
+        `Reduced by ${quantity} to ${current}`;
+    }
