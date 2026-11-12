@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET Parks search results page. */
-router.get('/', function(req, res, next) {
-  res.render('parks', { title: 'Search Results Parks' });
-});
+// Import the Parks controller
+const park_controller = require('../controllers/park');
+
+// GET Parks search results from MongoDB
+router.get('/', park_controller.park_view_all_Page);
 
 module.exports = router;

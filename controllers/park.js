@@ -31,3 +31,21 @@ exports.park_delete = function(req, res) {
 exports.park_update_put = function(req, res) {
     res.send('NOT IMPLEMENTED: Park update PUT ' + req.params.id);
 };
+
+
+ // VIEWS
+
+// Handle a show all Parks page
+exports.park_view_all_Page = async function(req, res) {
+    try {
+        const theParks = await Park.find();
+
+        res.render('parks', {
+            title: 'Parks Search Results',
+            results: theParks
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
