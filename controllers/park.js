@@ -1,9 +1,16 @@
 var Park = require('../models/park');
 
-// List of all Parks
-exports.park_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Park list');
+ // List of all Parks
+exports.park_list = async function(req, res) {
+    try {
+        const theParks = await Park.find();
+        res.json(theParks);
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
+
 
 // Details of a specific Park
 exports.park_detail = function(req, res) {
