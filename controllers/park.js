@@ -17,10 +17,26 @@ exports.park_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Park detail: ' + req.params.id);
 };
 
-// Handle Park create on POST
-exports.park_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Park create POST');
+
+ // Handle Park create on POST
+exports.park_create_post = async function(req, res) {
+    console.log(req.body);
+
+    let document = new Park();
+
+    document.park_name = req.body.park_name;
+    document.state = req.body.state;
+    document.area_acres = req.body.area_acres;
+
+    try {
+        let result = await document.save();
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
+
 
 // Handle Park delete on DELETE
 exports.park_delete = function(req, res) {
