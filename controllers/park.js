@@ -59,11 +59,36 @@ exports.park_delete = function(req, res) {
     res.send('NOT IMPLEMENTED: Park delete DELETE ' + req.params.id);
 };
 
-// Handle Park update on PUT
-exports.park_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Park update PUT ' + req.params.id);
-};
 
+// Handle Park update on PUT
+exports.park_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+
+    try {
+        let toUpdate = await Park.findById(req.params.id);
+
+        if (toUpdate == null) {
+            return res.status(404).json({ error: "Park not found" });
+        }
+
+        if (req.body.park_name !== undefined)
+            toUpdate.park_name = req.body.park_name;
+
+        if (req.body.state !== undefined)
+            toUpdate.state = req.body.state;
+
+        if (req.body.area_acres !== undefined)
+            toUpdate.area_acres = req.body.area_acres;
+
+        let result = await toUpdate.save();
+
+        console.log("Success " + result);
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
  // VIEWS
 
