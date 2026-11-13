@@ -12,9 +12,25 @@ exports.park_list = async function(req, res) {
 };
 
 
+
 // Details of a specific Park
-exports.park_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Park detail: ' + req.params.id);
+exports.park_detail = async function(req, res) {
+    console.log("detail " + req.params.id);
+
+    try {
+        let result = await Park.findById(req.params.id);
+
+        if (result == null) {
+            return res.status(404).json({ error: "Park not found" });
+        }
+
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({
+            error: "Document for id " + req.params.id + " not found"
+        });
+    }
 };
 
 
