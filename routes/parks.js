@@ -7,4 +7,7 @@ const park_controller = require('../controllers/park');
 // GET Parks search results from MongoDB
 router.get('/', park_controller.park_view_all_Page);
 
+// GET detail page for a single Park
+router.get('/detail', park_controller.park_view_one_Page);
+
 module.exports = router;

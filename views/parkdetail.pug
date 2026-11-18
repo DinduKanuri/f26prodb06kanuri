@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1= title
+
+  if toShow
+    div
+      div.row
+        div Park ID:
+        div= toShow._id
+
+      div.row
+        div Park Name:
+        div= toShow.park_name
+
+      div.row
+        div State:
+        div= toShow.state
+
+      div.row
+        div Area (Acres):
+        div= toShow.area_acres
+
+    a(href='/parks') Back to Parks
+  else
+    h2 Park not found

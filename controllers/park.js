@@ -122,3 +122,26 @@ exports.park_view_all_Page = async function(req, res) {
         res.status(500).json({ error: err.message });
     }
 };
+
+
+// Handle a detail page for a single Park
+exports.park_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id);
+
+    try {
+        let result = await Park.findById(req.query.id);
+
+        if (result == null) {
+            return res.status(404).send("Park not found");
+        }
+
+        res.render('parkdetail', {
+            title: 'Park Detail',
+            toShow: result
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
