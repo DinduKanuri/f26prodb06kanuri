@@ -145,3 +145,18 @@ exports.park_view_one_Page = async function(req, res) {
     }
 };
 
+// Handle building the page for creating a Park
+exports.park_create_Page = function(req, res) {
+    console.log("create view");
+
+    try {
+        res.render('parkcreate', {
+            title: 'Park Create'
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+

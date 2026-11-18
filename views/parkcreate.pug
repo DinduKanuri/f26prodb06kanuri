@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  h1= title
+
+  form#ParkForm(action='/resource/parks', method='POST')
+    div.form-group
+      label(for='park_name') Park Name
+      input#park_name(type='text', name='park_name', required)
+
+    div.form-group
+      label(for='state') State
+      input#state(type='text', name='state', required)
+
+    div.form-group
+      label(for='area_acres') Area (Acres)
+      input#area_acres(type='number', name='area_acres', required)
+
+    button(type='submit') Create Park
+
+  p#status
+  div#createdPark
+
+  script.
+    document.getElementById('ParkForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      try {
+        const response = await fetch(event.target.action, {
+          method: 'POST',
+          body: new URLSearchParams(new FormData(event.target))
+        });
+
+        const park = await response.json();
+
+        if (!response.ok) {
+          throw new Error(park.error || 'Create failed');
+        }
+
+        document.getElementById('status').textContent = 'Park created successfully!';
+
+        document.getElementById('createdPark').textContent =
+          'Created: ' + park.park_name + ', ' + park.state +
+          ', ' + park.area_acres + ' acres. ID: ' + park._id;
+
+      } catch (err) {
+        document.getElementById('status').textContent = 'Error: ' + err.message;
+      }
+    });
