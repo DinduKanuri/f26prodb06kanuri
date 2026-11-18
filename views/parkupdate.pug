@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  h1= title
+
+  if toShow
+    p Park ID: #{toShow._id}
+
+    - let actionid = '/resource/parks/' + toShow._id
+
+    form#ParkUpdateForm(action=actionid, method='PUT')
+      div.form-group
+        label(for='park_name') Park Name
+        input#park_name(type='text', name='park_name', value=toShow.park_name, required)
+
+      div.form-group
+        label(for='state') State
+        input#state(type='text', name='state', value=toShow.state, required)
+
+      div.form-group
+        label(for='area_acres') Area (Acres)
+        input#area_acres(type='number', name='area_acres', value=toShow.area_acres, required)
+
+      button(type='submit') Update Park
+
+    p#status
+    div#updatedPark
+
+    script.
+      document.getElementById('ParkUpdateForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        try {
+          const response = await fetch(event.target.action, {
+            method: 'PUT',
+            body: new URLSearchParams(new FormData(event.target))
+          });
+
+          const park = await response.json();
+
+          if (!response.ok) {
+            throw new Error(park.error || 'Update failed');
+          }
+
+          document.getElementById('status').textContent = 'Park updated successfully!';
+
+          document.getElementById('updatedPark').textContent =
+            'Updated: ' + park.park_name + ', ' + park.state +
+            ', ' + park.area_acres + ' acres. ID: ' + park._id;
+
+        } catch (err) {
+          document.getElementById('status').textContent = 'Error: ' + err.message;
+        }
+      });
+
+  else
+    h2 Park not found

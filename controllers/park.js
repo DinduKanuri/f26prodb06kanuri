@@ -159,4 +159,25 @@ exports.park_create_Page = function(req, res) {
     }
 };
 
+// Handle building the page for updating a Park
+exports.park_update_Page = async function(req, res) {
+    console.log("update view for park " + req.query.id);
+
+    try {
+        let result = await Park.findById(req.query.id);
+
+        if (result == null) {
+            return res.status(404).send("Park not found");
+        }
+
+        res.render('parkupdate', {
+            title: 'Park Update',
+            toShow: result
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 
