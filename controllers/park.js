@@ -54,10 +54,26 @@ exports.park_create_post = async function(req, res) {
 };
 
 
+
 // Handle Park delete on DELETE
-exports.park_delete = function(req, res) {
-    res.send('NOT IMPLEMENTED: Park delete DELETE ' + req.params.id);
+exports.park_delete = async function(req, res) {
+    console.log("delete " + req.params.id);
+
+    try {
+        let result = await Park.findByIdAndDelete(req.params.id);
+
+        if (result == null) {
+            return res.status(404).json({ error: "Park not found" });
+        }
+
+        console.log("Removed " + result);
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
+
 
 
 // Handle Park update on PUT
