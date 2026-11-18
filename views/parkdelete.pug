@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  h1= title
+
+  if toShow == null
+    h2 No park found to delete
+    a(href='/parks') Back to Parks
+
+  else
+    div
+      div.row
+        div Park ID:
+        div= toShow._id
+
+      div.row
+        div Park Name:
+        div= toShow.park_name
+
+      div.row
+        div State:
+        div= toShow.state
+
+      div.row
+        div Area (Acres):
+        div= toShow.area_acres
+
+    button#deletePark(type='button', data-id=toShow._id) Delete Park
+    button#cancelDelete(type='button') Cancel
+
+    p#status
+
+    script.
+      const deleteButton = document.getElementById('deletePark');
+
+      document.getElementById('cancelDelete').addEventListener('click', function() {
+        window.location.href = '/parks';
+      });
+
+      deleteButton.addEventListener('click', async function() {
+        if (!confirm('Are you sure you want to delete this park?')) {
+          return;
+        }
+
+        try {
+          const response = await fetch('/resource/parks/' + deleteButton.dataset.id, {
+            method: 'DELETE'
+          });
+
+          const park = await response.json();
+
+          if (!response.ok) {
+            throw new Error(park.error || 'Delete failed');
+          }
+
+          document.getElementById('status').textContent =
+            'Park deleted successfully: ' + park.park_name;
+
+          deleteButton.disabled = true;
+
+        } catch (err) {
+          document.getElementById('status').textContent =
+            'Error: ' + err.message;
+        }
+      });

@@ -16,5 +16,8 @@ router.get('/create', park_controller.park_create_Page);
 // GET page to update an existing Park
 router.get('/update', park_controller.park_update_Page);
 
+// GET page to delete an existing Park
+router.get('/delete', park_controller.park_delete_Page);
+
 
 module.exports = router;

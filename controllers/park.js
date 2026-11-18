@@ -180,4 +180,21 @@ exports.park_update_Page = async function(req, res) {
     }
 };
 
+// Handle building the page for deleting a Park
+exports.park_delete_Page = async function(req, res) {
+    console.log("delete view for park " + req.query.id);
+
+    try {
+        let result = await Park.findById(req.query.id);
+
+        res.render('parkdelete', {
+            title: 'Park Delete',
+            toShow: result
+        });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 
