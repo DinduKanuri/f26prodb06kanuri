@@ -132,7 +132,10 @@ exports.park_view_one_Page = async function(req, res) {
         let result = await Park.findById(req.query.id);
 
         if (result == null) {
-            return res.status(404).send("Park not found");
+            return res.status(404).render('parkdetail', {
+                title: 'Park Detail',
+                toShow: null
+            });
         }
 
         res.render('parkdetail', {
@@ -167,7 +170,10 @@ exports.park_update_Page = async function(req, res) {
         let result = await Park.findById(req.query.id);
 
         if (result == null) {
-            return res.status(404).send("Park not found");
+            return res.status(404).render('parkupdate', {
+                title: 'Park Update',
+                toShow: null
+            });
         }
 
         res.render('parkupdate', {
