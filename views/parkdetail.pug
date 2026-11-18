@@ -4,23 +4,27 @@ block content
   h1= title
 
   if toShow
-    div
-      div.row
-        div Park ID:
-        div= toShow._id
+    div.park-detail-card
+      h2= toShow.park_name
 
-      div.row
-        div Park Name:
-        div= toShow.park_name
+      div.park-detail-row
+        div.park-detail-label Park ID:
+        div.park-detail-value= toShow._id
 
-      div.row
-        div State:
-        div= toShow.state
+      div.park-detail-row
+        div.park-detail-label Park Name:
+        div.park-detail-value= toShow.park_name
 
-      div.row
-        div Area (Acres):
-        div= toShow.area_acres
+      div.park-detail-row
+        div.park-detail-label State:
+        div.park-detail-value= toShow.state
 
-    a(href='/parks') Back to Parks
+      div.park-detail-row
+        div.park-detail-label Area (Acres):
+        div.park-detail-value= toShow.area_acres
+
+      a.park-detail-button(href='/parks') Back to Parks
+
   else
     h2 Park not found
+    a(href='/parks') Back to Parks

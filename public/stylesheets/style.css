@@ -6,3 +6,48 @@ body {
 a {
   color: #00B7FF;
 }
+
+/* Assignment 12 Bonus - Park Detail Styling */
+
+.park-detail-card {
+    background-color: #f8fff9;
+    border: 2px solid #2e7d32;
+    border-radius: 12px;
+    padding: 25px;
+    max-width: 650px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.park-detail-row {
+    display: flex;
+    gap: 20px;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.park-detail-label {
+    font-weight: bold;
+    color: #2e7d32;
+    min-width: 140px;
+}
+
+.park-detail-value {
+    color: #333;
+    overflow-wrap: anywhere;
+}
+
+.park-detail-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2e7d32;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.park-detail-button:hover {
+    background-color: #1b5e20;
+    color: white;
+    text-decoration: none;
+}
