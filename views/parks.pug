@@ -2,20 +2,19 @@ extends layout
 
 block content
   h1= title
-  
-  
+
   div.container-fluid
     div.row
-      each park, index in results
-        div.col-sm-2(onclick=`buy(${index})`)
+      each park in results
+        div.col-sm-3.m-2
           h5 #{park.park_name}
           p State: #{park.state}
           p Area: #{park.area_acres} acres
-        
-  
+
+          - let destination = `dispatch("/parks/update?id=${park._id}")`
+          button.btn.btn-primary.ml-1(type="button", onclick=destination) Update
+
   script.
-    function buy(index) {
-      alert(`You purchased item ${index}`);
+    function dispatch(path) {
+      window.location.href = path;
     }
-
-
