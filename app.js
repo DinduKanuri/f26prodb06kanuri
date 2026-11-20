@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 require('dotenv').config();
 
@@ -26,7 +27,6 @@ db.on('error', err => {
 });
 
 const Park = require('./models/park');
-
 
  // Seed the Parks collection with three records
 async function recreateDB() {
@@ -64,15 +64,12 @@ db.once('open', function() {
   }
 });
 
-
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var parksRouter = require('./routes/parks');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
 var resourceRouter = require('./routes/resource');
-
 
 var app = express();
 
@@ -84,6 +81,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//Passport Session Middleware
+app.use(require('express-session')({
+  secret: process.env.SESSION_SECRET || 'lab13-local-development-only',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -92,6 +98,17 @@ app.use('/parks', parksRouter);
 app.use('/grid', gridRouter);
 app.use('/selector', pickRouter);
 app.use('/resource', resourceRouter);
+
+//Passport Configuration
+// Use the existing MongoDB connection
+// Connect Passport to the Account model
+
+var Account = require('./models/account');
+
+passport.use(new LocalStrategy(Account.authenticate()));
+
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 
 // catch 404 and forward to error handler
